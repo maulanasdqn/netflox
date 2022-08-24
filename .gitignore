@@ -7,6 +7,8 @@
 
 # testing
 /coverage
+/.direnv
+/dist
 
 # next.js
 /.next/
