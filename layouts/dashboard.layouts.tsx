@@ -15,18 +15,18 @@ export const DashboardLayout: FC<DashboardLayoutDto> = (
     <>
       <Navbar />
       <Banner />
-      <section className="flex md:flex-row flex-col gap-y-4 justify-start flex-1 gap-x-4 bg-gray-800 w-full h-[300px] px-6">
-        <section className="bg-gray-400 w-full rounded-lg h-full flex text-4xl items-center justify-center">
-          Horror
+      <section className="flex md:flex-row flex-col gap-y-4 justify-start flex-1 gap-x-4 bg-gray-800 w-full h-[300px] px-6 text-white">
+        <section className="bg-gray-700 w-full rounded-lg h-full flex text-4xl items-center justify-center">
+          Popular
         </section>
-        <section className="bg-gray-400 w-full rounded-lg h-full flex text-4xl items-center justify-center">
-          Horror
+        <section className="bg-gray-700 w-full rounded-lg h-full flex text-4xl items-center justify-center">
+          Latest
         </section>
-        <section className="bg-gray-400 w-full rounded-lg h-full flex text-4xl items-center justify-center">
-          Horror
+        <section className="bg-gray-700 w-full rounded-lg h-full flex text-4xl items-center justify-center">
+          Rating
         </section>
-        <section className="bg-gray-400 w-full rounded-lg h-full flex text-4xl items-center justify-center">
-          Horror
+        <section className="bg-gray-700 w-full rounded-lg h-full flex text-4xl items-center justify-center">
+          Upcoming
         </section>
       </section>
       <section className="h-auto w-full justify-start items-start grid 1xl:grid-cols-7 2xl:grid-cols-8 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 grid-rows-auto bg-gray-800 p-6 2xl:gap-y-6 1xl:gap-y-5 lg:gap-y-4 gap-3">

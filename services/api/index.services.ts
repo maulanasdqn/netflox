@@ -3,7 +3,7 @@ import axios from "axios";
 const token = process.env.bearerToken;
 
 const ApiService = {
-  init(baseURL: string) {
+  init(baseURL: string | undefined) {
     axios.defaults.baseURL = baseURL;
   },
 
