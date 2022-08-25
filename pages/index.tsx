@@ -6,7 +6,7 @@ import { Button } from "../components/Common/Buttons";
 
 const HeadContent: React.FC = (): ReactElement => {
   return (
-    <section className="flex flex-col items-center text-center md:text-left">
+    <section className="flex overflow-hidden flex-col items-center text-center md:text-left">
       <h1 className="text-gray-100 lg:text-6xl text-3xl md:text-5xl font-bold">
         Welcome To Netflox
       </h1>

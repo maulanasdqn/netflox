@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import { Loading } from "../../components/Common/Loading";
 import { FC, Fragment, ReactElement, useEffect, useState } from "react";
 import { DashboardLayout } from "../../layouts/dashboard.layouts";
 import { useInfiniteQuery } from "react-query";
@@ -53,11 +54,9 @@ const MovieDashboard: NextPage = (): ReactElement => {
     }
   }, [fetchNextPage, inView]);
 
-  if (status === "loading") return <span>Loading...</span>;
-  if (status === "error") return <span>!Error</span>;
-
   return (
     <DashboardLayout>
+      {status === "loading" && <Loading />}
       <>
         {data?.pages.map((page, i) => (
           <Fragment key={i}>
@@ -71,7 +70,7 @@ const MovieDashboard: NextPage = (): ReactElement => {
             ))}
           </Fragment>
         ))}
-        <div>
+        <div className="text-white text-2xl font-semibold">
           {isFetching && !isFetchingNextPage ? "Background Updating..." : null}
         </div>
         <span ref={ref} />
