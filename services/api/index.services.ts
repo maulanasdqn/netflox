@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const token = process.env.bearerToken;
+const token = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 
 const ApiService = {
   init(baseURL: string | undefined) {

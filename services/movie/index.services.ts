@@ -69,5 +69,22 @@ const MovieService = {
       getErrorMessage(error);
     }
   },
+
+  retrieveMovieByGenres: async function (genres: string | undefined) {
+    const requestData = {
+      method: "get",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      url: `/discover/movie/?with_genres=${genres}`,
+    };
+
+    try {
+      const response = await ApiService.customRequest(requestData);
+      return response.data;
+    } catch (error) {
+      getErrorMessage(error);
+    }
+  },
 };
 export { MovieService };

@@ -1,10 +1,14 @@
 import { NextPage } from "next";
+import Link from "next/link";
 import { Loading } from "../../components/Common/Loading";
 import { FC, Fragment, ReactElement, useEffect, useState } from "react";
 import { DashboardLayout } from "../../layouts/dashboard.layouts";
 import { useInfiniteQuery } from "react-query";
 import { MovieService } from "../../services/movie/index.services";
 import { useInView } from "react-intersection-observer";
+import { useRecoilValue } from "recoil";
+import { isUserAuthenticated } from "../../store/auth";
+import { useRouter } from "next/router";
 
 interface MovieDto {
   id: number;
@@ -13,7 +17,7 @@ interface MovieDto {
   poster_path?: string;
 }
 
-const MovieList: FC<MovieDto> = (x: MovieDto): ReactElement => {
+export const MovieList: FC<MovieDto> = (x: MovieDto): ReactElement => {
   const [isDetail, setDetail] = useState(false);
 
   return (
@@ -22,17 +26,21 @@ const MovieList: FC<MovieDto> = (x: MovieDto): ReactElement => {
         onMouseOver={() => setDetail(!isDetail)}
         className="bg-gray-700 hover:scale-125 shadow-md shadow-gray-900 max-w-[200px] rounded-lg flex-col flex h-[300px] min-h-[300px] max-h-[300px]"
       >
-        <img
-          className="object-fill w-full h-full"
-          src={"https://image.tmdb.org/t/p/original/" + x.poster_path}
-          alt={x.title}
-        />
+        <Link href={`/movie/${x.id}`}>
+          <img
+            className="object-fill w-full h-full"
+            src={process.env.NEXT_PUBLIC_IMAGE_URL + "" + x.poster_path}
+            alt={x.title}
+          />
+        </Link>
       </section>
     </>
   );
 };
 
 const MovieDashboard: NextPage = (): ReactElement => {
+  const router = useRouter();
+  const isAuth = useRecoilValue(isUserAuthenticated);
   const { inView, ref } = useInView();
   const { data, status, fetchNextPage, isFetching, isFetchingNextPage } =
     useInfiniteQuery(
@@ -52,7 +60,11 @@ const MovieDashboard: NextPage = (): ReactElement => {
     if (inView) {
       fetchNextPage();
     }
-  }, [fetchNextPage, inView]);
+
+    if (!isAuth) {
+      router.push("/");
+    }
+  }, [fetchNextPage, inView, isAuth, router]);
 
   return (
     <DashboardLayout>
