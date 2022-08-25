@@ -59,7 +59,7 @@ const MovieService = {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      url: `/movie/${id}/`,
+      url: `/movie/${id}`,
     };
 
     try {
