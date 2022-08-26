@@ -14,7 +14,7 @@ const HeadContent: React.FC = (): ReactElement => {
         Here you will find movie that not exist in other universe
       </h1>
       <section className="flex gap-x-4 mt-4">
-        <Button to="/auth/login" type={"button"}>
+        <Button to="/auth/login/" type={"button"}>
           Login
         </Button>
         <Button to="/auth/register" behaviour="secondary" type={"button"}>

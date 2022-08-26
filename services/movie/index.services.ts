@@ -1,4 +1,5 @@
 import { getErrorMessage } from "../../utilities/helper";
+import { Payload } from "../../utilities/interface/movie.interface";
 import ApiService from "../api/index.services";
 
 const MovieService = {
@@ -70,13 +71,14 @@ const MovieService = {
     }
   },
 
-  retrieveMovieByGenres: async function (genres: string | undefined) {
+  retrieveMovieByGenres: async function (payload: Payload) {
+    const { pageParam, genres } = payload;
     const requestData = {
       method: "get",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      url: `/discover/movie/?with_genres=${genres}`,
+      url: `/discover/movie/?page=${pageParam}&?with_genres=${genres}`,
     };
 
     try {

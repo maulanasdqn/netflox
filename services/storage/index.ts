@@ -7,11 +7,13 @@ interface MovieDto {
 
 export const StorageService = {
   setMovie(data: Array<MovieDto>) {
-    localStorage.setItem("Movie", JSON.stringify(data));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("Movie", JSON.stringify(data));
+    }
   },
 
   getMovie() {
-    localStorage.getItem("Movie");
+    if (typeof window !== "undefined") localStorage.getItem("Movie");
   },
 
   getAuth() {
