@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import { ReactElement } from "react";
 import { HomeLayout } from "../layouts/home.layouts";
-import styles from "../styles/home.module.css";
 import { Button } from "../components/Common/Buttons";
 
 const HeadContent: React.FC = (): ReactElement => {
@@ -30,11 +29,7 @@ const Home: NextPage = () => {
     <>
       <HomeLayout
         center
-        className={
-          styles.bb +
-          " " +
-          `bg-gradient-to-r from-indigo-800 via-purple-700 to-pink-600 `
-        }
+        className="bg-gradient-to-r from-indigo-800 via-purple-700 to-pink-600"
       >
         <HeadContent />
       </HomeLayout>
