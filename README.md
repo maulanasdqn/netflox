@@ -1,34 +1,74 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Netflox
 
-## Getting Started
+## Initial Setup
 
-First, run the development server:
+- Clone Project ini ( Direkomendasikan menggunakan SSH )
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+> `git clone git@github.com:maulanasdqn/netflox`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Install NodeJS dan Yarn
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- Anda perlu menginstall dulu NodeJS dan Yarn ( Direkomendasikan menggunakan NodeJS Versi 16 )
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+> `npm i -g yarn`
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Install Dependency
 
-## Learn More
+- Pasang Dependency
 
-To learn more about Next.js, take a look at the following resources:
+> `yarn install`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Development With Nix
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Development dengan Nix membuat proses Develop menjadi lebih mudah dan ringkas dengan ada nya Flake.nix semua dependency akan terurus dengan sendirinya dan juga independent artinya tidak akan menggangu environment yang lain
 
-## Deploy on Vercel
+- Pasang Nixpkgs
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> `sh <(curl -L https://nixos.org/nix/install) --no-daemon`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Pasang nix-flakes
+
+> `nix-env -iA nixpkgs.nixFlakes`
+
+- Setup nix-flakes \
+  Edit file yang ada di `~/.config/nix/nix.conf` atau `/etc/nix/nix.conf` dan tambahkan:
+
+> `experimental-features = nix-command flakes`
+
+- Pasang nix-direnv
+
+> `nix-env -f '<nixpkgs>' -iA nix-direnv`
+
+- Setup nix-direnv
+
+> `source $HOME/.nix-profile/share/nix-direnv/direnvrc`
+
+- Masuk ke folder yang sudah di clone kemudian jalankan perintah berikut
+
+> `direnv allow`
+
+- Dan enjoy tinggal tunggu dependency terinstall dengan sendirinya
+
+## Development with Docker
+
+Docker harus di pasang dulu jika belum ada
+
+- Pasang Docker bisa di unduh di https://docker.com
+
+- Setup Docker
+
+> `docker compose up`
+
+## Setup Env
+
+ENV di sesuaikan seperti yang ada di contoh .env.example
+
+- Rename file .env.example menjadi .env.local
+- Isi ENV sesuai dengan yang ada di dalam file .env.local nya
+
+## Setup Husky
+
+Untuk bisa menggunakan husky agar berjalan baik dan benar maka perlu di inisialisasi dulu
+
+- Jalankan perintah
+  > `npx husky-init`
