@@ -5,17 +5,19 @@ interface HomeLayoutDto {
   children: ReactElement;
   center?: boolean;
   className?: string;
+  height?: string
 }
 
 export const HomeLayout: NextPage<HomeLayoutDto> = (
   props: HomeLayoutDto
 ): ReactElement => {
-  const { children, center, className } = props;
+  const { children, center, className, height = "h-screen" } = props;
   return (
     <section
       className={`
       ${className}
-      ${center && "items-center justify-center"} flex w-full h-screen p-6`}
+      ${height}
+      ${center && "items-center justify-center"} flex w-full p-6`}
     >
       {children}
     </section>

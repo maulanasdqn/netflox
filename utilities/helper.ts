@@ -27,3 +27,11 @@ export function getErrorMessage(error: unknown): string {
 export const handleError = (error: any): ErrorComplete => {
   return error.response.data.message;
 };
+
+export function toInt(num: string | string[] | undefined) {
+  return parseInt(`${num}`);
+}
+
+export function loadImg(imgur: string | undefined) {
+  return `${process.env.NEXT_PUBLIC_IMAGE_URL + "" + imgur}`;
+}

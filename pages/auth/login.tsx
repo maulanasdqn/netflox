@@ -1,12 +1,15 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FC, ReactElement, useState } from "react";
+import { FC, ReactElement, useEffect, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isUserAuthenticated } from "../../store/auth";
 import { Button } from "../../components/Common/Buttons";
 import { TextField } from "../../components/Common/TextField";
+import { Navbar } from "../../components/Navbar";
 import { HomeLayout } from "../../layouts/home.layouts";
-import { EmailConstant, PasswordConstant } from "../../utilities/constant";
 import { getErrorMessage } from "../../utilities/helper";
+import { supabase } from "../../utilities/SupabaseClient";
 
 const LoginContent: FC = (): ReactElement => {
   const router = useRouter();
@@ -29,75 +32,85 @@ const LoginContent: FC = (): ReactElement => {
   });
 
   const [error, setError] = useState("");
+  const isAuth = useRecoilValue(isUserAuthenticated);
+  const setAuth = useSetRecoilState(isUserAuthenticated);
 
-  const onSubmit = (): void => {
-    const emailCurrent = "maulana@pbs.id";
-    const passwordCurrent = "anjay123";
-
+  const onSubmit = async (): Promise<void> => {
     try {
-      if (
-        password.password !== passwordCurrent &&
-        email.email !== emailCurrent
-      ) {
-        setPassword({
-          password: "",
-          status: "error",
-          errMsg: `${
-            password.password.length === 0
-              ? PasswordConstant.empty
-              : PasswordConstant.wrong
-          }`,
-        });
+      const { error } = await supabase.auth.signIn({
+        email: email.email,
+        password: password.password,
+      });
 
-        setEmail({
-          email: "",
-          status: "error",
-          errMsg: `${
-            email.email.length === 0 ? EmailConstant.empty : EmailConstant.wrong
-          }`,
-        });
-        throw new Error(
-          `${
-            email.email.length === 0 && password.password.length === 0
-              ? "Plese input email and password"
-              : "Email or password are Wrong"
-          }`
-        );
-      }
-
-      if (email.email !== emailCurrent) {
-        setEmail({
-          email: "",
-          status: "error",
-          errMsg: `${
-            email.email.length === 0 ? EmailConstant.empty : EmailConstant.wrong
-          }`,
-        });
-        throw new Error(email.errMsg);
-      }
-      if (password.password !== passwordCurrent) {
-        setPassword({
-          password: "",
-          status: "error",
-          errMsg: `${
-            password.password.length === 0
-              ? PasswordConstant.empty
-              : PasswordConstant.wrong
-          }`,
-        });
-        throw new Error(password.errMsg);
-      }
+      if (error) throw new Error(error.message);
+      setAuth(true);
       router.push("/movie/dashboard");
     } catch (error) {
       setError(getErrorMessage(error));
       setBanner(true);
     }
   };
+
+  const handleSignInWithGitHub = async () => {
+    try {
+      const { error } = await supabase.auth.signIn(
+        {
+          provider: "github",
+        },
+        {
+          redirectTo: "http://localhost:3000/callback/",
+        }
+      );
+      if (error) throw new Error(error.message);
+    } catch (err) {
+      setError(getErrorMessage(err));
+      setBanner(true);
+    }
+  };
+
+  const handleSignInWithGoogle = async () => {
+    try {
+      const { error } = await supabase.auth.signIn(
+        {
+          provider: "google",
+        },
+        {
+          redirectTo: "http://localhost:3000/callback/",
+        }
+      );
+      if (error) throw new Error(error.message);
+    } catch (err) {
+      setError(getErrorMessage(err));
+      setBanner(true);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuth) {
+      router.push("/movie/dashboard");
+    }
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, sessionState) => {
+        if (sessionState?.user) {
+          router.push("/movie/dashboard");
+        }
+      }
+    );
+
+    return () => {
+      authListener?.unsubscribe();
+      setAuth(true);
+    };
+  }, [isAuth, router, setAuth]);
   return (
-    <section className="flex flex-col gap-y-4 p-4 rounded-lg md:w-1/2 w-full bg-gray-700">
+    <section className="flex overflow-hidden flex-col gap-y-4 p-4 rounded-lg md:w-1/2 w-full bg-gray-700">
+      <span className="text-2xl font-bold text-white text-center">
+        Login to your account
+      </span>
       {error.length !== 0 && isBannerShow && (
         <span className="border-2 rounded-lg text-red-600 text-1xl bg-gray-900 border-red-800 w-auto h-auto p-4 items-center justify-center flex">
-          {"Invalid " + error}
+          {error}
         </span>
       )}
       <TextField
@@ -149,15 +162,33 @@ const LoginContent: FC = (): ReactElement => {
       >
         Login
       </Button>
+      <span className="text-white text-xl text-center">OR</span>
+      <Button
+        onClick={handleSignInWithGitHub}
+        className="text-1xl mt-4 font-medium rounded-lg disabled::bg-blue-200 bg-blue-400 hover:bg-blue-600 text-white"
+        type={"submit"}
+      >
+        Github
+      </Button>
+      <Button
+        onClick={handleSignInWithGoogle}
+        className="text-1xl mt-4 font-medium rounded-lg disabled::bg-blue-200 bg-blue-400 hover:bg-blue-600 text-white"
+        type={"submit"}
+      >
+        Google
+      </Button>
     </section>
   );
 };
 
 const Login: NextPage = (): ReactElement => {
   return (
-    <HomeLayout className="bg-gray-800" center>
-      <LoginContent />
-    </HomeLayout>
+    <>
+      <Navbar />
+      <HomeLayout className="bg-gray-800" center>
+        <LoginContent />
+      </HomeLayout>
+    </>
   );
 };
 
