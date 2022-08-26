@@ -1,0 +1,8 @@
+version: "3"
+services:
+  movie-maul:
+    build: ./
+  server-nginx:
+    build: ./nginx
+    ports:
+      - 80:80

@@ -41,7 +41,6 @@ export const MovieList: FC<MovieDto> = (x: MovieDto): ReactElement => {
 
 const MovieDashboard: NextPage = (): ReactElement => {
   const [mounted, setMounted] = useState(false);
-  const isLoading = useRecoilValue(loadingState);
   const router = useRouter();
   const isAuth = useRecoilValue(isUserAuthenticated);
   const getMovieData = useRecoilValue(fetchMovieLocal);
@@ -87,7 +86,7 @@ const MovieDashboard: NextPage = (): ReactElement => {
   return (
     <DashboardLayout>
       <>
-        {(status === "loading" || isLoading) && <Loading />}
+        {status === "loading" && <Loading />}
         {getMovieData?.pages?.map((page: MovieResDto, i: number) => (
           <Fragment key={i}>
             {page.results.map((res: MovieDto, i: number) => (

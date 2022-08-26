@@ -58,7 +58,7 @@ const LoginContent: FC = (): ReactElement => {
           provider: "github",
         },
         {
-          redirectTo: "http://localhost:3000/callback/",
+          redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/callback/`,
         }
       );
       if (error) throw new Error(error.message);
@@ -75,7 +75,7 @@ const LoginContent: FC = (): ReactElement => {
           provider: "google",
         },
         {
-          redirectTo: "http://localhost:3000/callback/",
+          redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/callback/`,
         }
       );
       if (error) throw new Error(error.message);
@@ -100,9 +100,8 @@ const LoginContent: FC = (): ReactElement => {
 
     return () => {
       authListener?.unsubscribe();
-      setAuth(true);
     };
-  }, [isAuth, router, setAuth]);
+  }, [isAuth, router]);
   return (
     <section className="flex overflow-hidden flex-col gap-y-4 p-4 rounded-lg md:w-1/2 w-full bg-gray-700">
       <span className="text-2xl font-bold text-white text-center">
