@@ -91,7 +91,7 @@ const LoginContent: FC = (): ReactElement => {
     }
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, sessionState) => {
+      (_, sessionState) => {
         if (sessionState?.user) {
           router.push("/movie/dashboard");
         }

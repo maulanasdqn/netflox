@@ -12,8 +12,8 @@ const Callback = () => {
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, sessionState) => {
+        setAuth(true);
         if (sessionState?.user) {
-          setAuth(true);
           router.push("/movie/dashboard");
         }
       }
