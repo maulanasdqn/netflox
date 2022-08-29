@@ -9,7 +9,7 @@ const MovieService = {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      url: `/movie/popular/?page=${pageParam}`,
+      url: `/movie/popular/?api_key=${process.env.NEXT_PUBLIC_API_KEY}&?page=${pageParam}`,
     };
 
     try {
