@@ -11,6 +11,12 @@ const ApiService = {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   },
 
+  setApiKey() {
+    axios.defaults.headers.common = {
+      "X-API-Key": `${process.env.NEXT_PUBLIC_API_KEY}`,
+    };
+  },
+
   removeHeader() {
     axios.defaults.headers.common = {};
   },

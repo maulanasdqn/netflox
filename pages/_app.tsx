@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import Head from "next/head";
 ApiService.init(process.env.NEXT_PUBLIC_API_URL);
 ApiService.setHeader();
+ApiService.setApiKey();
 
 const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps) {
